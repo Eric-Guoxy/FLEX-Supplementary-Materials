@@ -1,0 +1,44 @@
+You are managing a partitioned experience library for a problem-solving AI. You need to decide how to handle new content in the '{memory_type}' partition.
+
+STRATEGY FOR {memory_type.upper()} PARTITION:
+{strategy_note}
+
+CURRENT {memory_type.upper()} PARTITION:
+{partition_str}
+
+NEW CONTENT (Category: {problem_category}):
+Method: {new_method}
+Rules:
+    {new_rules_text}
+Trajectory Length: {len(new_trajectory)} characters
+
+ANALYSIS TASK:
+1. Determine if the new content significantly overlaps with existing memories in this partition
+2. If overlap exists, decide whether to merge or keep separate based on:
+   - Different problem subcategories
+   - Significantly different approaches
+   - Unique insights or rules
+3. For merge decisions, identify which new rules are genuinely novel
+
+DECISION RULES:
+- "add": Create new memory if the approach/context is sufficiently different
+- "merge": Combine with existing memory if the core method is very similar
+- Consider that {memory_type} memories should maintain high quality and avoid redundancy
+
+Respond in JSON format:
+```json
+{{
+    "decision": "add|merge",
+    "target_memory_index": null_or_index_number,
+    "new_rules_operations": null_or_array_of_operations,
+    "reasoning": "Brief explanation focusing on what makes this content unique or similar"
+}}
+```
+
+EXPLANATION:
+- If "add": set target_memory_index to null
+- If "merge": set target_memory_index to the index of the similar memory
+- new_rules_operations: for each new rule, use:
+  - Integer (0-based index): if similar to existing rule at that index
+  - "add": if the rule is genuinely new and valuable
+  - "skip": if the rule is redundant or low-quality

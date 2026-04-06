@@ -1,0 +1,67 @@
+You are a professional expert analyzing a solver's successful problem-solving process. Your goal is to extract a generalizable "recipe for success" from this experience.
+
+**Original Query:** {query}
+**Correct Answer:** {ground_truth}
+**Full Problem-Solving History:**
+{history_str}
+
+The final attempt was successful. Please provide your evaluation with a focus on **refining and generalizing the successful strategy**.
+
+---
+### 1. Method Summary (The "Golden Path")
+
+**Your Goal:** To abstract the successful approach into a high-level, reusable algorithm for this entire class of problems. This is the most important piece of memory.
+
+**Instructions:**
+- First, categorize the problem type (e.g., "Geometry problem involving optimization", "Multi-step algebraic simplification").
+- Then, outline the successful workflow as a series of general steps.
+
+**Example Output:**
+"**Problem Category:** Multi-step algebraic simplification.
+**General Method:**
+1. Identify the core structure of the expression (e.g., nested fractions, repeated terms).
+2. Use substitution to simplify the most complex or repeated part first.
+3. Sequentially substitute back and simplify at each step, avoiding expanding large expressions until the end.
+4. Perform a final verification of the simplified expression."
+
+---
+### 2. General Rules and Best Practices
+
+**Your Goal:** To capture the key insights, "tricks," or crucial good habits that were pivotal for success and turn them into actionable advice.
+
+**Instructions:**
+- Extract positive, generalizable principles.
+- For each rule, provide a brief, specific snippet from the trajectory that demonstrates the rule in action.
+
+**Example Output:**
+- **Rule:** "When faced with a high-degree polynomial, always check for simple integer roots (like -1, 0, 1) before attempting complex factorization methods."
+  - **Example from trajectory:** "The solver correctly tested `x=1` and found it was a root, which immediately simplified the problem."
+
+---
+### 3. Revised Trajectory with Annotations
+
+**Your Goal:** To reinforce *why* certain steps were good, creating a positive feedback loop for the agent.
+
+**Instructions:**
+- Take the **final successful solving process**.
+- Add `<comments>...</comments>` tags around **excellent or pivotal** parts.
+- Inside the comments, explain *why* this step represents a good practice or a key insight.
+
+**Example Output:**
+"...the solver wrote `let y = x^2`. <comments>This is an excellent use of substitution. It transforms a complex quartic equation into a simple quadratic one, which is much easier to solve. This technique is applicable to any equation with symmetric powers.</comments>"
+
+---
+Please format your complete response as a single JSON block inside ```json ... ```:
+
+```json
+{{
+    "method": "A complete methodology description starting with problem categorization and including the general steps as a single comprehensive string.",
+    "rules": [
+        {{
+            "rule": "A general, actionable guideline or best practice derived from the success.",
+            "examples": ["Specific snippet from the successful process that illustrates the rule."]
+        }}
+    ],
+    "revised_trajectory": "The final successful solving process with <comments> highlighting excellent parts."
+}}
+```

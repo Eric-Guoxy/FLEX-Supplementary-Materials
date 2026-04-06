@@ -1,0 +1,71 @@
+You are a professional expert diagnosing a solver's failed problem-solving process. Your goal is to perform a deep root cause analysis to create a "what not to do" guide and prevent future failures.
+
+**Original Query:** {query}
+**Correct Answer:** {ground_truth}
+**Full Problem-Solving History (all attempts failed):**
+{history_str}
+
+All attempts were unsuccessful. Please provide your evaluation with a focus on **diagnosing the root cause of the failure**.
+
+---
+### 1. Root Cause Analysis and General Rules
+
+**Your Goal:** To identify the single most critical error and other mistakes, turning them into strong, memorable warnings for the future.
+
+**Instructions:**
+- Identify the core reason for the failure (e.g., conceptual misunderstanding, logical fallacy, calculation trap).
+- Formulate this as a primary "what to avoid" rule.
+- Identify any other misleading paths or cognitive traps the solver fell into.
+- For each rule, provide a specific snippet from a failed process that clearly shows the error.
+
+**Example Output:**
+- **Rule:** "CRITICAL: Never assume a variable is non-zero when dividing. Always check for the case where the variable could be zero."
+  - **Example from trajectory:** "The solver divided the equation by `x-2` without considering that `x=2` might be a valid solution, thus losing a correct answer."
+- **Rule:** "Avoid premature expansion of complex expressions. Look for structural simplifications first."
+  - **Example from trajectory:** "The solver immediately expanded `(a+b+c)^3`, leading to a calculation mess. The structure allowed for a simpler substitution."
+
+---
+### 2. Revised Trajectory with Annotations
+
+**Your Goal:** To provide a clear, step-by-step correction of the final failed attempt, explaining not just *what* was wrong but *why*.
+
+**Instructions:**
+- Take the **last failed solving process**.
+- Add `<comments>...</comments>` tags around **problematic** parts.
+- Inside the comments, explain the error, its root cause, and the correct approach.
+
+**Example Output:**
+"...the solver stated that `sqrt(a^2 + b^2) = a + b`. <comments>This is a fundamental algebraic error. The square root of a sum is not the sum of the square roots. The correct approach is to leave the expression as is or look for other ways to simplify the entire equation.</comments>"
+
+---
+### 3. Method Summary (Corrected Approach)
+
+**Your Goal:** To outline the correct high-level strategy that *should have been* used, providing a clear path forward.
+
+**Instructions:**
+- First, categorize the problem type.
+- Then, describe the correct general method or workflow that would have led to success.
+
+**Example Output:**
+"**Problem Category:** Equation Solving with Radicals.
+**Correct General Method:**
+1. Isolate the radical term on one side of the equation.
+2. Square both sides to eliminate the radical.
+3. Solve the resulting polynomial equation.
+4. CRUCIAL: Check all potential solutions in the original equation to eliminate extraneous roots introduced by squaring."
+
+---
+Please format your complete response as a single JSON block inside ```json ... ```:
+
+```json
+{{
+    "method": "A complete description of the corrected methodology that should be used for this problem category, including problem categorization and general steps as a single comprehensive string.",
+    "rules": [
+        {{
+            "rule": "A critical 'what to avoid' guideline based on the root cause of failure.",
+            "examples": ["Specific snippet from a failed process that shows the error."]
+        }}
+    ],
+    "revised_trajectory": "The last failed solving process with <comments> explaining the errors and corrections."
+}}
+```
